@@ -24,10 +24,21 @@ Build a Python application that manages research projects and biological samples
 ## Current functionality
 
 - Validate project names
-- Create the projects table
+- Create the SQLite projects table
 - Insert projects into SQLite
 - Return the generated project ID
-- Run three automated tests
+- List all saved projects ordered by ID
+- Run automated tests with pytest
+
+## Current output
+
+Running:
+
+```bash
+python -m sample_tracker.main
+```
+
+creates a project called `Microbiome Study`, saves it in SQLite, and lists all saved projects.
 
 ## Current database schema
 
@@ -36,3 +47,4 @@ CREATE TABLE projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
+```

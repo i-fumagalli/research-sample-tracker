@@ -12,19 +12,18 @@ Build a Python application for managing research projects and biological samples
 - Added automated tests with pytest
 - Added SQLite database setup
 - Added project insertion into SQLite
+- Added listing of saved projects
 
 ## Current task
 
-- Read and list saved projects from SQLite
+- Replace the hard-coded project name with user input
 
 ## Next tasks
 
-- Add command-line input
+- Add a proper command-line interface
 - Add biological samples
 - Link samples to projects
-- Add filtering by project and status
 - Add database tests
-- Improve README
 
 ## Later
 
