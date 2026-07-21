@@ -41,3 +41,15 @@ def insert_project(name: str) -> int:
         return cursor.lastrowid
     finally:
         connection.close()
+
+def list_projects() -> list[tuple[int, str]]:
+    """Return all saved projects ordered by ID."""
+    connection = create_connection()
+
+    try:
+        cursor = connection.execute(
+            "SELECT id, name FROM projects ORDER BY id"
+        )
+        return cursor.fetchall()
+    finally:
+        connection.close()
