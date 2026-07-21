@@ -26,3 +26,18 @@ def create_tables() -> None:
         connection.commit()
     finally:
         connection.close()
+
+def insert_project(name: str) -> int:
+    """Insert a project and return its database ID."""
+    connection = create_connection()
+
+    try:
+        cursor = connection.execute(
+            "INSERT INTO projects (name) VALUES (?)",
+            (name,),
+        )
+        connection.commit()
+
+        return cursor.lastrowid
+    finally:
+        connection.close()

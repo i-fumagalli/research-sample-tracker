@@ -6,20 +6,18 @@ Build a Python application for managing research projects and biological samples
 
 ## Completed
 
-- Created GitHub repository
-- Cloned repository into VS Code
-- Created and activated a virtual environment
+- Created the initial Python package
+- Added project name validation
+- Added automated tests
+- Added SQLite database setup
 
 ## Current task
 
-- Create the initial Python package
-- Add the first validated project function
+- Save projects in the SQLite database
 
 ## Next tasks
 
-- Add automated tests
-- Add SQLite database
-- Save and list projects
+- List saved projects
 - Add biological samples
 
 ## Later
