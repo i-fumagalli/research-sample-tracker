@@ -13,7 +13,9 @@ def create_project(name: str) -> dict[str, str]:
 def main() -> None:
     create_tables()
 
-    project = create_project("Microbiome Study")
+    project_name = input("Project name: ")
+    project = create_project(project_name)
+    
     project_id = insert_project(project["name"])
 
     print(f"Created project {project_id}: {project['name']}")
