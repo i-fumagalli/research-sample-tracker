@@ -17,14 +17,15 @@ Build a Python application for managing research projects and biological samples
 - Added command-line argument parsing with argparse
 - Added an `add` command for creating research projects
 - Added isolated database tests using a temporary SQLite database
+- Added a `list` command to display saved projects without creating a new project
+- Added a database test for listing multiple projects
 
 ## Current task
 
-- Add a `list` command to display saved projects without creating a new project
+- Add biological samples
 
 ## Next tasks
 
-- Add biological samples
 - Link samples to projects
 
 ## Later

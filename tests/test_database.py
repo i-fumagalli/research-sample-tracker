@@ -12,3 +12,15 @@ def test_insert_and_list_project(tmp_path: Path) -> None:
 
     assert project_id is not None
     assert (project_id, "Test Project") in projects
+
+def test_list_multiple_projects(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    first_project_id = insert_project("Microbiome Study", database_path)
+    second_project_id = insert_project("Genomics Research", database_path)
+
+    projects = list_projects(database_path)
+
+    assert projects == [(first_project_id, "Microbiome Study"), 
+                        (second_project_id, "Genomics Research"),]

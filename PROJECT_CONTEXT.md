@@ -32,6 +32,8 @@ Build a Python application that manages research projects and biological samples
 - Use a command-line `add` command to create projects
 - Run automated tests with pytest
 - Use temporary SQLite databases for database tests
+- Use a command-line `list` command to display projects without creating a new project
+- Test listing multiple projects with a temporary SQLite database
 
 ## Current usage
 
@@ -42,6 +44,12 @@ python -m sample_tracker.main add "Microbiome Study"
 ```
 
 The command validates the project name, saves it in SQLite, and lists all saved projects.
+
+List all saved projects without creating a new project:
+
+```bash
+python -m sample_tracker.main list
+```
 
 ## Current database schema
 
@@ -59,5 +67,6 @@ Tests must be run from the project root with:
 ```bash
 python -m pytest
 ```
+There are currently 5 automated tests
 
 Database tests use a temporary SQLite database and do not modify `sample_tracker.db`.
