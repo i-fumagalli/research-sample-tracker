@@ -66,6 +66,18 @@ def list_projects(database_path=DATABASE_PATH) -> list[tuple[int, str]]:
     finally:
         connection.close()
 
+def project_exists(project_id: int, database_path=DATABASE_PATH) -> bool:
+    """Check if a project with the given ID exists in the database."""
+    connection = create_connection(database_path)
+
+    try:
+        cursor = connection.execute(
+            "SELECT 1 FROM projects WHERE id = ?", (project_id,)
+        )
+        return cursor.fetchone() is not None #fetchone() returns None if no row is found, otherwise it returns a tuple representing the row
+    finally:
+        connection.close()
+
 #sample table CRUD operations
 def insert_sample(name: str, project_id: int, database_path=DATABASE_PATH) -> int:
     """Insert a sample and return its database ID."""

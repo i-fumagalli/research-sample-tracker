@@ -4,7 +4,8 @@ from sample_tracker.database import (create_tables,
                                      insert_project, 
                                      list_projects,
                                      insert_sample,
-                                     list_samples
+                                     list_samples,
+                                    project_exists,
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -79,8 +80,11 @@ def main() -> None:
 
     # Handle add-sample command
     elif args.command == "add-sample":
-        sample = create_sample(args.name, args.project_id)
+        if not project_exists(args.project_id):
+            raise ValueError(f"Project with ID {args.project_id} does not exist.")
         
+        sample = create_sample(args.name, args.project_id)
+
         sample_id = insert_sample(sample["name"], sample["project_id"])
 
         print(f"Created sample {sample_id}: {sample['name']} for project ID {sample['project_id']}")
