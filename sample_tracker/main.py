@@ -16,6 +16,15 @@ def create_project(name: str) -> dict[str, str]:
 
     return {"name": cleaned_name}
 
+def create_sample(name: str, project_id: int) -> dict[str, str | int]: #str | int e.g. {"name": "Sample 1", "project_id": 1}
+    """Create a biological sample representation."""
+    cleaned_name = name.strip()
+
+    if not cleaned_name:
+        raise ValueError("Sample name must not be empty.")
+
+    return {"name": cleaned_name, "project_id": project_id}
+
 
 def main() -> None:
     create_tables()
@@ -70,9 +79,11 @@ def main() -> None:
 
     # Handle add-sample command
     elif args.command == "add-sample":
-        sample_id = insert_sample(args.name, args.project_id)
+        sample = create_sample(args.name, args.project_id)
+        
+        sample_id = insert_sample(sample["name"], sample["project_id"])
 
-        print(f"Created sample {sample_id}: {args.name} for project ID {args.project_id}")
+        print(f"Created sample {sample_id}: {sample['name']} for project ID {sample['project_id']}")
 
     # Handle list-samples command
     elif args.command == "list-samples":
