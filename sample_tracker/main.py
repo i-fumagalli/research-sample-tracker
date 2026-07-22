@@ -6,7 +6,8 @@ from sample_tracker.database import (create_tables,
                                      insert_sample,
                                      list_samples,
                                     project_exists,
-                                    list_samples_with_projects
+                                    list_samples_with_projects,
+                                    delete_sample,
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -53,6 +54,10 @@ def main() -> None:
     #list samples command
     subparsers.add_parser("list-samples", help="List all biological samples")
 
+    #delete sample command
+    delete_sample_parser = subparsers.add_parser("delete-sample", help="Delete a biological sample")
+
+    delete_sample_parser.add_argument("sample_id", type=int, help="ID of the biological sample to delete") #sample_id argument is used to specify the ID of the biological sample to delete
 
     args = parser.parse_args() #parse the command-line arguments
 
@@ -97,6 +102,18 @@ def main() -> None:
         print("Saved samples:")
         for (saved_sample_id, saved_sample_name, saved_project_id, saved_project_name) in samples:
             print(f"{saved_sample_id}: {saved_sample_name} "f"(Project: {saved_project_name}, ID: {saved_project_id})")
+
+    # Handle delete-sample command
+    elif args.command == "delete-sample":
+        deleted = delete_sample(args.sample_id)
+
+        if not deleted:
+            raise ValueError(f"Sample with ID {args.sample_id} does not exist.")
+
+        print(f"Deleted sample with ID {args.sample_id}")
+
+    else:
+        parser.print_help() #print the help message if no command is provided
     
 
 if __name__ == "__main__":

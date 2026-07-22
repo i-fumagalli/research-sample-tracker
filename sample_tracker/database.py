@@ -122,3 +122,17 @@ def list_samples_with_projects(database_path=DATABASE_PATH) -> list[tuple[int, s
         return cursor.fetchall()
     finally:
         connection.close()
+
+def delete_sample(sample_id: int, database_path=DATABASE_PATH) -> bool:
+    """Delete a sample and return True if a row was deleted, False otherwise."""
+    connection = create_connection(database_path)
+
+    try:
+        cursor = connection.execute(
+            "DELETE FROM samples WHERE id = ?", (sample_id,)
+        )
+        connection.commit()
+
+        return cursor.rowcount > 0 #rowcount returns the number of rows affected by the last execute() call
+    finally:
+        connection.close()
