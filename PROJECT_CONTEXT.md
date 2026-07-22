@@ -48,3 +48,10 @@ CREATE TABLE projects (
     name TEXT NOT NULL
 );
 ```
+
+## Running tests
+
+Tests must be run from the project root with:
+
+```bash
+python -m pytest

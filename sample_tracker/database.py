@@ -27,18 +27,19 @@ def create_tables() -> None:
     finally:
         connection.close()
 
+#CRUD operations for the projects table
 def insert_project(name: str) -> int:
     """Insert a project and return its database ID."""
     connection = create_connection()
 
     try:
         cursor = connection.execute(
-            "INSERT INTO projects (name) VALUES (?)",
-            (name,),
+            "INSERT INTO projects (name) VALUES (?)", #VALUES (?) is a placeholder for the project name
+            (name,), #make sure to pass a tuple with a single element
         )
         connection.commit()
 
-        return cursor.lastrowid
+        return cursor.lastrowid #ID of last inserted row
     finally:
         connection.close()
 

@@ -13,10 +13,11 @@ Build a Python application for managing research projects and biological samples
 - Added SQLite database setup
 - Added project insertion into SQLite
 - Added listing of saved projects
+- Replaced the hard-coded project name with user input
 
 ## Current task
 
-- Replace the hard-coded project name with user input
+- Add database tests
 
 ## Next tasks
 

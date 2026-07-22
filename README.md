@@ -13,3 +13,10 @@ A Python application for managing research projects and biological samples.
 ```bash
 python -m sample_tracker.main
 ```
+
+## Run the tests
+
+From the project root, run:
+
+```bash
+python -m pytest
