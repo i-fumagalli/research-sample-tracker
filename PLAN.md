@@ -19,14 +19,21 @@ Build a Python application for managing research projects and biological samples
 - Added isolated database tests using a temporary SQLite database
 - Added a `list` command to display saved projects without creating a new project
 - Added a database test for listing multiple projects
+- Added a `samples` table linked to research projects
+- Added sample insertion into SQLite
+- Added listing of saved samples
+- Added database tests for inserting and listing samples
+- Added an `add-sample` command for creating biological samples
 
 ## Current task
 
-- Add biological samples
+- Add a `list-samples` command to display saved biological samples
 
 ## Next tasks
 
-- Link samples to projects
+- Validate sample names
+- Check whether the selected project exists
+- Display project names together with samples
 
 ## Later
 

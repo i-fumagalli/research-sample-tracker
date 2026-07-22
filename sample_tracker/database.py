@@ -81,3 +81,15 @@ def insert_sample(name: str, project_id: int, database_path=DATABASE_PATH) -> in
         return cursor.lastrowid
     finally:
         connection.close()
+
+def list_samples(database_path=DATABASE_PATH) -> list[tuple[int, str, int]]:
+    """Return all samples ordered by ID."""
+    connection = create_connection(database_path)
+
+    try:
+        cursor = connection.execute(
+            "SELECT id, name, project_id FROM samples ORDER BY id"
+        )
+        return cursor.fetchall()
+    finally:
+        connection.close()

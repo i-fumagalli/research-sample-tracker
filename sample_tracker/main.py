@@ -1,6 +1,10 @@
 import argparse #this module is used to parse command-line arguments
 
-from sample_tracker.database import (create_tables, insert_project, list_projects,)
+from sample_tracker.database import (create_tables, 
+                                     insert_project, 
+                                     list_projects,
+                                     insert_sample,
+                                     )
 
 def create_project(name: str) -> dict[str, str]:
     """Create a research project representation."""
@@ -27,6 +31,13 @@ def main() -> None:
     # List command
     subparsers.add_parser("list", help="List all research projects") #list command is used to list all saved research projects
 
+    # Add sample command
+    add_sample_parser = subparsers.add_parser("add-sample", help="Add a new biological sample")
+
+    add_sample_parser.add_argument("name", type=str, help="Name of the biological sample") #name argument is used to specify the name of the biological sample
+
+    add_sample_parser.add_argument("project_id", type=int, help="ID of the associated research project") #project_id argument is used to specify the ID of the associated research project
+
     args = parser.parse_args() #parse the command-line arguments
 
     # Handle add command
@@ -51,6 +62,12 @@ def main() -> None:
         print("Saved projects:")
         for saved_project_id, saved_project_name in projects:
             print(f"{saved_project_id}: {saved_project_name}")
+
+    # Handle add-sample command
+    elif args.command == "add-sample":
+        sample_id = insert_sample(args.name, args.project_id)
+
+        print(f"Created sample {sample_id}: {args.name} for project ID {args.project_id}")
 
 
 if __name__ == "__main__":

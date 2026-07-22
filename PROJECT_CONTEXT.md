@@ -34,6 +34,12 @@ Build a Python application that manages research projects and biological samples
 - Use temporary SQLite databases for database tests
 - Use a command-line `list` command to display projects without creating a new project
 - Test listing multiple projects with a temporary SQLite database
+- Store biological samples in SQLite
+- Link each biological sample to a research project using `project_id`
+- Insert biological samples into SQLite
+- List saved biological samples from the database
+- Use a command-line `add-sample` command to create biological samples
+- Test sample insertion and sample listing with a temporary SQLite database
 
 ## Current usage
 
@@ -43,13 +49,18 @@ Add a project:
 python -m sample_tracker.main add "Microbiome Study"
 ```
 
-The command validates the project name, saves it in SQLite, and lists all saved projects.
-
-List all saved projects without creating a new project:
+List all saved projects:
 
 ```bash
 python -m sample_tracker.main list
 ```
+
+Add a biological sample to poject ID 1:
+
+```bash
+python -m sample_tracker.main add-sample "Sample 1" 1
+```
+
 
 ## Current database schema
 
@@ -57,6 +68,13 @@ python -m sample_tracker.main list
 CREATE TABLE projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
+);
+
+CREATE TABLE samples (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    project_id INTEGER NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES projects (id)
 );
 ```
 
@@ -67,6 +85,6 @@ Tests must be run from the project root with:
 ```bash
 python -m pytest
 ```
-There are currently 5 automated tests.
+There are currently 7 automated tests.
 
 Database tests use a temporary SQLite database and do not modify `sample_tracker.db`.
