@@ -67,6 +67,6 @@ Tests must be run from the project root with:
 ```bash
 python -m pytest
 ```
-There are currently 5 automated tests
+There are currently 5 automated tests.
 
 Database tests use a temporary SQLite database and do not modify `sample_tracker.db`.

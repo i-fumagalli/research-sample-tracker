@@ -23,6 +23,17 @@ def create_tables(database_path=DATABASE_PATH) -> None:
             )
             """
         )
+
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS samples (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                project_id INTEGER NOT NULL,
+                FOREIGN KEY (project_id) REFERENCES projects (id)
+            )
+            """
+        )
         connection.commit()
     finally:
         connection.close()
@@ -52,5 +63,21 @@ def list_projects(database_path=DATABASE_PATH) -> list[tuple[int, str]]:
             "SELECT id, name FROM projects ORDER BY id"
         )
         return cursor.fetchall()
+    finally:
+        connection.close()
+
+#sample table CRUD operations
+def insert_sample(name: str, project_id: int, database_path=DATABASE_PATH) -> int:
+    """Insert a sample and return its database ID."""
+    connection = create_connection(database_path)
+
+    try:
+        cursor = connection.execute(
+            "INSERT INTO samples (name, project_id) VALUES (?, ?)",
+            (name, project_id), #tuple containing the sample name and project ID
+        )
+        connection.commit()
+
+        return cursor.lastrowid
     finally:
         connection.close()

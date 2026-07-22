@@ -1,6 +1,11 @@
 from pathlib import Path
 
-from sample_tracker.database import (create_tables, insert_project, list_projects,)
+from sample_tracker.database import (
+    create_tables, 
+    insert_project, 
+    list_projects,
+    insert_sample,
+    )
 
 def test_insert_and_list_project(tmp_path: Path) -> None:
     #tmp_path is a temporary directory provided by pytest for testing purposes
@@ -24,3 +29,13 @@ def test_list_multiple_projects(tmp_path: Path) -> None:
 
     assert projects == [(first_project_id, "Microbiome Study"), 
                         (second_project_id, "Genomics Research"),]
+
+def test_insert_sample(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    project_id = insert_project("Microbiome Study", database_path)
+
+    sample_id = insert_sample("Sample 1", project_id, database_path)
+
+    assert sample_id is not None
