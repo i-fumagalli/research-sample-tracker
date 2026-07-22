@@ -14,17 +14,18 @@ Build a Python application for managing research projects and biological samples
 - Added project insertion into SQLite
 - Added listing of saved projects
 - Replaced the hard-coded project name with user input
+- Added command-line argument parsing with argparse
+- Added an `add` command for creating research projects
+- Added isolated database tests using a temporary SQLite database
 
 ## Current task
 
-- Add database tests
+- Add a `list` command to display saved projects without creating a new project
 
 ## Next tasks
 
-- Add a proper command-line interface
 - Add biological samples
 - Link samples to projects
-- Add database tests
 
 ## Later
 

@@ -1,3 +1,5 @@
+import argparse #this module is used to parse command-line arguments
+
 from sample_tracker.database import (create_tables, insert_project, list_projects,)
 
 def create_project(name: str) -> dict[str, str]:
@@ -13,19 +15,34 @@ def create_project(name: str) -> dict[str, str]:
 def main() -> None:
     create_tables()
 
-    project_name = input("Project name: ")
-    project = create_project(project_name)
-    
-    project_id = insert_project(project["name"])
+    parser = argparse.ArgumentParser(description="Research Sample Tracker") #ArgumentParser is used to create a command-line interface (CLI) for the application
+    subparsers = parser.add_subparsers(dest="command") #subparsers allow us to define different commands for the CLI
 
-    print(f"Created project {project_id}: {project['name']}")
+    # Define add_project command
+    add_parser = subparsers.add_parser("add", help="Add a new research project") #add command is used to add a new research project
 
-    projects = list_projects()
+    add_parser.add_argument("name", type=str, help="Name of the research project") #name argument is used to specify the name of the research project
 
-    print("Saved projects:")
+    args = parser.parse_args() #parse the command-line arguments
 
-    for saved_project_id, saved_project_name in projects:
-        print(f"{saved_project_id}: {saved_project_name}")
+    #args.command == "add"
+    #args.name == "Microbiome Study"
+
+    ###
+    if args.command == "add":
+        project = create_project(args.name)
+
+        project_id = insert_project(project["name"])
+
+        print(f"Created project {project_id}: {project['name']}")
+
+        projects = list_projects()
+
+        print("Saved projects:")
+
+        for saved_project_id, saved_project_name in projects:
+            print(f"{saved_project_id}: {saved_project_name}")
+
 
 if __name__ == "__main__":
     main()

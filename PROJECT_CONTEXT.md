@@ -13,6 +13,7 @@ Build a Python application that manages research projects and biological samples
 - Python
 - SQLite
 - pytest
+- argparse
 - Git and GitHub
 
 ## Current structure
@@ -28,17 +29,19 @@ Build a Python application that manages research projects and biological samples
 - Insert projects into SQLite
 - Return the generated project ID
 - List all saved projects ordered by ID
+- Use a command-line `add` command to create projects
 - Run automated tests with pytest
+- Use temporary SQLite databases for database tests
 
-## Current output
+## Current usage
 
-Running:
+Add a project:
 
 ```bash
-python -m sample_tracker.main
+python -m sample_tracker.main add "Microbiome Study"
 ```
 
-creates a project called `Microbiome Study`, saves it in SQLite, and lists all saved projects.
+The command validates the project name, saves it in SQLite, and lists all saved projects.
 
 ## Current database schema
 
@@ -55,3 +58,6 @@ Tests must be run from the project root with:
 
 ```bash
 python -m pytest
+```
+
+Database tests use a temporary SQLite database and do not modify `sample_tracker.db`.
