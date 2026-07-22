@@ -24,16 +24,22 @@ Build a Python application for managing research projects and biological samples
 - Added listing of saved samples
 - Added database tests for inserting and listing samples
 - Added an `add-sample` command for creating biological samples
+- Added a `samples` table linked to research projects
+- Added sample insertion and sample listing
+- Added `add-sample` and `list-samples` commands
+- Added sample name validation
+- Added project existence checks before creating samples
+- Added tests for sample creation, listing, validation, and project checks
 
 ## Current task
 
-- Add a `list-samples` command to display saved biological samples
+- Display project names together with biological samples
 
 ## Next tasks
 
-- Validate sample names
-- Check whether the selected project exists
-- Display project names together with samples
+- Add CLI tests for sample commands
+- Improve user-friendly error messages
+- Finalize README and project documentation
 
 ## Later
 
