@@ -105,3 +105,20 @@ def list_samples(database_path=DATABASE_PATH) -> list[tuple[int, str, int]]:
         return cursor.fetchall()
     finally:
         connection.close()
+
+def list_samples_with_projects(database_path=DATABASE_PATH) -> list[tuple[int, str, int, str]]:
+    """Return all samples along with their associated project names."""
+    connection = create_connection(database_path)
+
+    try:
+        cursor = connection.execute(
+            """
+            SELECT samples.id, samples.name, samples.project_id, projects.name
+            FROM samples
+            JOIN projects ON samples.project_id = projects.id
+            ORDER BY samples.id
+            """
+        )
+        return cursor.fetchall()
+    finally:
+        connection.close()

@@ -7,6 +7,7 @@ from sample_tracker.database import (
     insert_sample,
     list_samples,
     project_exists,
+    list_samples_with_projects,
     )
 
 def test_insert_and_list_project(tmp_path: Path) -> None:
@@ -90,3 +91,15 @@ def test_list_multiple_samples(tmp_path: Path) -> None:
 
     assert samples == [(first_sample_id, "Sample 1", project_id), 
                        (second_sample_id, "Sample 2", project_id)]
+
+def test_list_samples_with_project_names(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    project_id = insert_project("Microbiome Study", database_path)
+
+    sample_id = insert_sample("Sample 1", project_id, database_path)
+
+    samples_with_projects = list_samples_with_projects(database_path)
+
+    assert samples_with_projects == [(sample_id, "Sample 1", project_id, "Microbiome Study")]

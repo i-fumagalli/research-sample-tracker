@@ -6,6 +6,7 @@ from sample_tracker.database import (create_tables,
                                      insert_sample,
                                      list_samples,
                                     project_exists,
+                                    list_samples_with_projects
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -91,13 +92,12 @@ def main() -> None:
 
     # Handle list-samples command
     elif args.command == "list-samples":
-        samples = list_samples()
+        samples = list_samples_with_projects()
 
         print("Saved samples:")
-        for saved_sample_id, saved_sample_name, saved_project_id in samples:
-            print(f"{saved_sample_id}: {saved_sample_name} (Project ID: {saved_project_id})")
+        for (saved_sample_id, saved_sample_name, saved_project_id, saved_project_name) in samples:
+            print(f"{saved_sample_id}: {saved_sample_name} "f"(Project: {saved_project_name}, ID: {saved_project_id})")
     
-
 
 if __name__ == "__main__":
     main()
