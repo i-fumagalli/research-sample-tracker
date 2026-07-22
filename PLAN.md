@@ -30,16 +30,23 @@ Build a Python application for managing research projects and biological samples
 - Added sample name validation
 - Added project existence checks before creating samples
 - Added tests for sample creation, listing, validation, and project checks
+- Added project names to the `list-samples` output
+- Added user-friendly error messages
+- Added sample deletion in SQLite
+- Added a `delete-sample` command
+- Added tests for deleting samples
 
 ## Current task
 
-- Display project names together with biological samples
+- Add sample update functionality
 
 ## Next tasks
 
-- Add CLI tests for sample commands
-- Improve user-friendly error messages
-- Finalize README and project documentation
+- Add a command to update biological samples
+- Add project deletion
+- Add project update functionality
+- Add commands to delete and update projects
+- Add tests for all update and delete operations
 
 ## Later
 

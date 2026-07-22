@@ -47,6 +47,12 @@ Build a Python application that manages research projects and biological samples
 - Validate sample names
 - Reject samples linked to non-existing projects
 - Test project existence, sample insertion, sample listing, and sample validation
+- Display project names together with biological samples
+- Show user-friendly error messages instead of Python tracebacks
+- Delete biological samples from SQLite
+- Use a command-line `delete-sample` command
+- Return `True` or `False` depending on whether a sample was deleted
+- Test sample deletion with a temporary SQLite database
 
 ## Current usage
 
@@ -80,6 +86,12 @@ List all biological samples:
 python -m sample_tracker.main list_samples
 ```
 
+Delete a biological sample:
+
+```bash
+python -m sample_tracker.main delete-sample 3
+```
+
 
 ## Current database schema
 
@@ -111,10 +123,24 @@ Tests must be run from the project root with:
 ```bash
 python -m pytest
 ```
-There are currently 12 automated tests.
+There are currently 18 automated tests.
 
 Database tests use a temporary SQLite database and do not modify `sample_tracker.db`.
 
 ## Current task
 
-Display project names together with samples instead of showing only the project ID.
+Complete CRUD support for projects and biological samples.
+
+Current CRUD status:
+
+- Projects:
+  - Create: complete
+  - Read: complete
+  - Update: not implemented
+  - Delete: not implemented
+
+- Samples:
+  - Create: complete
+  - Read: complete
+  - Update: not implemented
+  - Delete: complete
