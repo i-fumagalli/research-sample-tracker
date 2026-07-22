@@ -9,6 +9,7 @@ from sample_tracker.database import (
     project_exists,
     list_samples_with_projects,
     delete_sample,
+    update_sample,
     )
 
 def test_insert_and_list_project(tmp_path: Path) -> None:
@@ -118,3 +119,27 @@ def test_delete_sample(tmp_path: Path) -> None:
 
     assert deleted is True
     assert samples == []
+
+
+def test_delete_nonexistent_sample(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    deleted = delete_sample(999, database_path)
+
+    assert deleted is False
+
+def test_update_sample(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    first_project_id = insert_project("Microbiome Study", database_path)
+    second_project_id = insert_project("Genomics Research", database_path)
+
+    sample_id = insert_sample("Sample 1", first_project_id, database_path)
+
+    updated = update_sample(sample_id, "Updated Sample 1", second_project_id, database_path)
+    samples = list_samples(database_path)
+
+    assert updated is True
+    assert samples == [(sample_id, "Updated Sample 1", second_project_id)]

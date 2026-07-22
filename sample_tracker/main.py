@@ -8,6 +8,7 @@ from sample_tracker.database import (create_tables,
                                     project_exists,
                                     list_samples_with_projects,
                                     delete_sample,
+                                    update_sample,
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -58,6 +59,15 @@ def main() -> None:
     delete_sample_parser = subparsers.add_parser("delete-sample", help="Delete a biological sample")
 
     delete_sample_parser.add_argument("sample_id", type=int, help="ID of the biological sample to delete") #sample_id argument is used to specify the ID of the biological sample to delete
+
+    #update sample command
+    update_sample_parser = subparsers.add_parser("update-sample", help="Update a biological sample")
+
+    update_sample_parser.add_argument("sample_id", type=int, help="ID of the biological sample to update") #sample_id argument is used to specify the ID of the biological sample to update
+
+    update_sample_parser.add_argument("name", type=str, help="New name for the biological sample") #name argument is used to specify the new name for the biological sample
+
+    update_sample_parser.add_argument("project_id", type=int, help="New project ID for the biological sample") #project_id argument is used to specify the new project ID for the biological sample
 
     args = parser.parse_args() #parse the command-line arguments
 
@@ -111,6 +121,20 @@ def main() -> None:
             raise ValueError(f"Sample with ID {args.sample_id} does not exist.")
 
         print(f"Deleted sample with ID {args.sample_id}")
+
+    # Handle update-sample command
+    elif args.command == "update-sample":
+        if not project_exists(args.project_id):
+            raise ValueError(f"Project with ID {args.project_id} does not exist.")
+
+        sample = create_sample(args.name, args.project_id)
+
+        updated = update_sample(args.sample_id, sample["name"], sample["project_id"])
+
+        if not updated:
+            raise ValueError(f"Sample with ID {args.sample_id} does not exist.")
+
+        print(f"Updated sample {args.sample_id}: {sample['name']} for project ID {sample['project_id']}")
 
     else:
         parser.print_help() #print the help message if no command is provided

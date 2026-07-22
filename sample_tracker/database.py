@@ -136,3 +136,17 @@ def delete_sample(sample_id: int, database_path=DATABASE_PATH) -> bool:
         return cursor.rowcount > 0 #rowcount returns the number of rows affected by the last execute() call
     finally:
         connection.close()
+
+def update_sample(sample_id: int, name: str, project_id: int, database_path=DATABASE_PATH) -> bool:
+    """Update a sample's name and project ID and return True if a row was updated, False otherwise."""
+    connection = create_connection(database_path)
+
+    try:
+        cursor = connection.execute(
+            "UPDATE samples SET name = ?, project_id = ? WHERE id = ?", (name, project_id, sample_id)
+        )
+        connection.commit()
+
+        return cursor.rowcount > 0
+    finally:
+        connection.close()
