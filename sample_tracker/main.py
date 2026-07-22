@@ -4,6 +4,7 @@ from sample_tracker.database import (create_tables,
                                      insert_project, 
                                      list_projects,
                                      insert_sample,
+                                     list_samples
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -38,6 +39,10 @@ def main() -> None:
 
     add_sample_parser.add_argument("project_id", type=int, help="ID of the associated research project") #project_id argument is used to specify the ID of the associated research project
 
+    #list samples command
+    subparsers.add_parser("list-samples", help="List all biological samples")
+
+
     args = parser.parse_args() #parse the command-line arguments
 
     # Handle add command
@@ -68,6 +73,15 @@ def main() -> None:
         sample_id = insert_sample(args.name, args.project_id)
 
         print(f"Created sample {sample_id}: {args.name} for project ID {args.project_id}")
+
+    # Handle list-samples command
+    elif args.command == "list-samples":
+        samples = list_samples()
+
+        print("Saved samples:")
+        for saved_sample_id, saved_sample_name, saved_project_id in samples:
+            print(f"{saved_sample_id}: {saved_sample_name} (Project ID: {saved_project_id})")
+    
 
 
 if __name__ == "__main__":
