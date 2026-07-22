@@ -78,6 +78,20 @@ def project_exists(project_id: int, database_path=DATABASE_PATH) -> bool:
     finally:
         connection.close()
 
+def delete_project(project_id: int, database_path=DATABASE_PATH) -> bool:
+    """Delete a project and return True if a row was deleted, False otherwise."""
+    connection = create_connection(database_path)
+
+    try:
+        cursor = connection.execute(
+            "DELETE FROM projects WHERE id = ? AND NOT EXISTS (SELECT 1 FROM samples WHERE samples.project_id = projects.id)", (project_id,)
+        )
+        connection.commit()
+
+        return cursor.rowcount > 0 
+    finally:
+        connection.close()
+
 #sample table CRUD operations
 def insert_sample(name: str, project_id: int, database_path=DATABASE_PATH) -> int:
     """Insert a sample and return its database ID."""

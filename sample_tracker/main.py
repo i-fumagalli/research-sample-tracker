@@ -9,6 +9,7 @@ from sample_tracker.database import (create_tables,
                                     list_samples_with_projects,
                                     delete_sample,
                                     update_sample,
+                                    delete_project,
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -44,6 +45,11 @@ def main() -> None:
 
     # List command
     subparsers.add_parser("list", help="List all research projects") #list command is used to list all saved research projects
+
+    # Delete command
+    delete_project_parser = subparsers.add_parser("delete-project", help="Delete a research project")
+
+    delete_project_parser.add_argument("project_id", type=int, help="ID of the research project to delete")
 
     # Add sample command
     add_sample_parser = subparsers.add_parser("add-sample", help="Add a new biological sample")
@@ -93,6 +99,15 @@ def main() -> None:
         print("Saved projects:")
         for saved_project_id, saved_project_name in projects:
             print(f"{saved_project_id}: {saved_project_name}")
+
+    # Handle delete-project command
+    elif args.command == "delete-project":
+        deleted = delete_project(args.project_id)
+
+        if not deleted:
+            raise ValueError(f"Project with ID {args.project_id} does not exist or still has associated samples.")
+
+        print(f"Deleted project with ID {args.project_id}")
 
     # Handle add-sample command
     elif args.command == "add-sample":
