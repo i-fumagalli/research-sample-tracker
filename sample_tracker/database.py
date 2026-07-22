@@ -5,14 +5,14 @@ from pathlib import Path
 DATABASE_PATH = Path("sample_tracker.db")
 
 
-def create_connection() -> sqlite3.Connection:
+def create_connection(database_path=DATABASE_PATH) -> sqlite3.Connection:
     """Create and return a connection to the SQLite database."""
-    return sqlite3.connect(DATABASE_PATH)
+    return sqlite3.connect(database_path) #if the database file does not exist, it will be created automatically
 
 
-def create_tables() -> None:
+def create_tables(database_path=DATABASE_PATH) -> None:
     """Create the required database tables."""
-    connection = create_connection()
+    connection = create_connection(database_path)
 
     try:
         connection.execute(
@@ -28,9 +28,9 @@ def create_tables() -> None:
         connection.close()
 
 #CRUD operations for the projects table
-def insert_project(name: str) -> int:
+def insert_project(name: str, database_path=DATABASE_PATH) -> int:
     """Insert a project and return its database ID."""
-    connection = create_connection()
+    connection = create_connection(database_path)
 
     try:
         cursor = connection.execute(
@@ -43,9 +43,9 @@ def insert_project(name: str) -> int:
     finally:
         connection.close()
 
-def list_projects() -> list[tuple[int, str]]:
+def list_projects(database_path=DATABASE_PATH) -> list[tuple[int, str]]:
     """Return all saved projects ordered by ID."""
-    connection = create_connection()
+    connection = create_connection(database_path)
 
     try:
         cursor = connection.execute(
