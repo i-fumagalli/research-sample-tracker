@@ -67,3 +67,26 @@ def test_project_does_not_exist(tmp_path: Path) -> None:
     create_tables(database_path)
 
     assert project_exists(999, database_path) is False
+
+
+def test_list_projects_returns_empty_list(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    projects = list_projects(database_path)
+
+    assert projects == []
+
+def test_list_multiple_samples(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    project_id = insert_project("Microbiome Study", database_path)
+
+    first_sample_id = insert_sample("Sample 1", project_id, database_path)
+    second_sample_id = insert_sample("Sample 2", project_id, database_path)
+
+    samples = list_samples(database_path)
+
+    assert samples == [(first_sample_id, "Sample 1", project_id), 
+                       (second_sample_id, "Sample 2", project_id)]
