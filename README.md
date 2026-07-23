@@ -75,6 +75,13 @@ Run the commands from the project folder.
 python -m sample_tracker.main add "Microbiome Study"
 ```
 
+Arguments:
+
+```text
+name 
+```
+- `name`: Name of the new project
+
 ### List projects
 
 ```bash
@@ -87,11 +94,27 @@ python -m sample_tracker.main list
 python -m sample_tracker.main update-project 1 "Updated Project"
 ```
 
+Arguments:
+
+```text
+project_id new_name
+```
+- `project_id`: ID of the project to update
+- `new_name`: New name of the project
+
 ### Delete a project
 
 ```bash
 python -m sample_tracker.main delete-project 1
 ```
+
+Arguments:
+
+```text
+project_id
+```
+- `project_id`: ID of the project to delete
+
 A project can't be deleted while samples are still connected to it.
 
 ### Add a sample
@@ -99,8 +122,14 @@ A project can't be deleted while samples are still connected to it.
 ```bash
 python -m sample_tracker.main add-sample "Sample 1" 1
 ```
+Arguments:
 
-The last number is the project ID.
+```text
+name project_id
+```
+
+- `name`: Name of the biological sample
+- `project_id`: ID of the project the sample belongs to
 
 ### List samples
 
@@ -114,11 +143,14 @@ python -m sample_tracker.main list-samples
 python -m sample_tracker.main update-sample 1 "Updated Sample" 1
 ```
 
-The arguments are:
+Arguments:
 
 ```text
 sample_id new_name project_id
 ```
+- `sample_id`: ID of the sample to update
+- `new_name`: New name of the sample
+- `project_id`: ID of the project the sample should belong to
 
 
 ### Delete a sample
@@ -126,6 +158,13 @@ sample_id new_name project_id
 ```bash
 python -m sample_tracker.main delete-sample 1
 ```
+
+Arguments:
+
+```text
+sample_id
+```
+- `sample_id`: ID of the sample to delete
 
 ## Tests
 
