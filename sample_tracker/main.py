@@ -1,16 +1,18 @@
+from pathlib import Path #this module is used to handle file paths
+
 import argparse #this module is used to parse command-line arguments
 
 from sample_tracker.database import (create_tables, 
                                      insert_project, 
                                      list_projects,
                                      insert_sample,
-                                     list_samples,
                                     project_exists,
                                     list_samples_with_projects,
                                     delete_sample,
                                     update_sample,
                                     delete_project,
                                     update_project,
+                                    DATABASE_PATH,
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -32,8 +34,8 @@ def create_sample(name: str, project_id: int) -> dict[str, str | int]: #str | in
     return {"name": cleaned_name, "project_id": project_id}
 
 
-def main() -> None:
-    create_tables()
+def main(argv: list[str] | None = None, database_path: Path = DATABASE_PATH) -> None:
+    create_tables(database_path)
 
     parser = argparse.ArgumentParser(description="Research Sample Tracker") #ArgumentParser is used to create a command-line interface (CLI) for the application
 
@@ -83,17 +85,17 @@ def main() -> None:
 
     update_sample_parser.add_argument("project_id", type=int, help="New project ID for the biological sample") #project_id argument is used to specify the new project ID for the biological sample
 
-    args = parser.parse_args() #parse the command-line arguments
+    args = parser.parse_args(argv) # parse_args() method is used to parse the command-line arguments and return them as a Namespace object
 
     # Handle add command
     if args.command == "add":
         project = create_project(args.name)
 
-        project_id = insert_project(project["name"])
+        project_id = insert_project(project["name"], database_path)
 
         print(f"Created project {project_id}: {project['name']}")
 
-        projects = list_projects()
+        projects = list_projects(database_path)
 
         print("Saved projects:")
 
@@ -102,7 +104,7 @@ def main() -> None:
 
     # Handle list command
     elif args.command == "list":
-        projects = list_projects()
+        projects = list_projects(database_path)
 
         print("Saved projects:")
         for saved_project_id, saved_project_name in projects:
@@ -110,7 +112,7 @@ def main() -> None:
 
     # Handle delete-project command
     elif args.command == "delete-project":
-        deleted = delete_project(args.project_id)
+        deleted = delete_project(args.project_id, database_path)
 
         if not deleted:
             raise ValueError(f"Project with ID {args.project_id} does not exist or still has associated samples.")
@@ -121,7 +123,7 @@ def main() -> None:
     elif args.command == "update-project":
         project = create_project(args.name)
 
-        updated = update_project(args.project_id, project["name"])
+        updated = update_project(args.project_id, project["name"], database_path)
 
         if not updated:
             raise ValueError(f"Project with ID {args.project_id} does not exist.")
@@ -130,18 +132,18 @@ def main() -> None:
 
     # Handle add-sample command
     elif args.command == "add-sample":
-        if not project_exists(args.project_id):
+        if not project_exists(args.project_id, database_path):
             raise ValueError(f"Project with ID {args.project_id} does not exist.")
         
         sample = create_sample(args.name, args.project_id)
 
-        sample_id = insert_sample(sample["name"], sample["project_id"])
+        sample_id = insert_sample(sample["name"], sample["project_id"], database_path)
 
         print(f"Created sample {sample_id}: {sample['name']} for project ID {sample['project_id']}")
 
     # Handle list-samples command
     elif args.command == "list-samples":
-        samples = list_samples_with_projects()
+        samples = list_samples_with_projects(database_path)
 
         print("Saved samples:")
         for (saved_sample_id, saved_sample_name, saved_project_id, saved_project_name) in samples:
@@ -149,7 +151,7 @@ def main() -> None:
 
     # Handle delete-sample command
     elif args.command == "delete-sample":
-        deleted = delete_sample(args.sample_id)
+        deleted = delete_sample(args.sample_id, database_path)
 
         if not deleted:
             raise ValueError(f"Sample with ID {args.sample_id} does not exist.")
@@ -158,12 +160,12 @@ def main() -> None:
 
     # Handle update-sample command
     elif args.command == "update-sample":
-        if not project_exists(args.project_id):
+        if not project_exists(args.project_id, database_path):
             raise ValueError(f"Project with ID {args.project_id} does not exist.")
 
         sample = create_sample(args.name, args.project_id)
 
-        updated = update_sample(args.sample_id, sample["name"], sample["project_id"])
+        updated = update_sample(args.sample_id, sample["name"], sample["project_id"], database_path)
 
         if not updated:
             raise ValueError(f"Sample with ID {args.sample_id} does not exist.")
