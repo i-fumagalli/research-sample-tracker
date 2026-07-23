@@ -53,6 +53,14 @@ Build a Python application that manages research projects and biological samples
 - Use a command-line `delete-sample` command
 - Return `True` or `False` depending on whether a sample was deleted
 - Test sample deletion with a temporary SQLite database
+- Update research project names
+- Delete research projects without associated samples
+- Update biological sample names and project assignments
+- Delete biological samples
+- Use `update-project` and `delete-project` commands
+- Use `update-sample` and `delete-sample` commands
+- Prevent project deletion while samples are still linked
+- Provide full CRUD support for projects and samples
 
 ## Current usage
 
@@ -67,6 +75,18 @@ List all saved projects:
 ```bash
 python -m sample_tracker.main list
 ```
+
+Update a project:
+
+```bash
+python -m sample_tracker.main update-project 10 "Updated Project Name"
+```
+
+Delete a project:
+```bash
+python -m sample_tracker.main delete-project 10
+```
+
 
 Add a biological sample to poject ID 1:
 
@@ -84,6 +104,12 @@ List all biological samples:
 
 ```bash
 python -m sample_tracker.main list_samples
+```
+
+Update a biological sample:
+
+```bash
+python -m sample_tracker.main update-sample 3 "Updated Sample" 10
 ```
 
 Delete a biological sample:
@@ -123,7 +149,7 @@ Tests must be run from the project root with:
 ```bash
 python -m pytest
 ```
-There are currently 18 automated tests.
+There are currently 23 automated tests.
 
 Database tests use a temporary SQLite database and do not modify `sample_tracker.db`.
 
@@ -144,3 +170,19 @@ Current CRUD status:
   - Read: complete
   - Update: not implemented
   - Delete: complete
+
+  ## CRUD status
+
+Projects:
+
+- Create: complete
+- Read: complete
+- Update: complete
+- Delete: complete
+
+Samples:
+
+- Create: complete
+- Read: complete
+- Update: complete
+- Delete: complete

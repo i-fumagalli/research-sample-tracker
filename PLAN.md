@@ -35,18 +35,22 @@ Build a Python application for managing research projects and biological samples
 - Added sample deletion in SQLite
 - Added a `delete-sample` command
 - Added tests for deleting samples
+- Added full CRUD support for research projects
+- Added full CRUD support for biological samples
+- Added `update-project` and `delete-project` commands
+- Added `update-sample` and `delete-sample` commands
+- Prevented deletion of projects that still have associated samples
+- Added tests for project and sample update and delete operations
 
 ## Current task
 
-- Add sample update functionality
+- Add CLI tests for project and sample commands
 
 ## Next tasks
 
-- Add a command to update biological samples
-- Add project deletion
-- Add project update functionality
-- Add commands to delete and update projects
-- Add tests for all update and delete operations
+- Improve empty-list messages
+- Finalize README and project documentation
+- Prepare the codebase for FastAPI
 
 ## Later
 
