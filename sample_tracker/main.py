@@ -10,6 +10,7 @@ from sample_tracker.database import (create_tables,
                                     delete_sample,
                                     update_sample,
                                     delete_project,
+                                    update_project,
                                      )
 
 def create_project(name: str) -> dict[str, str]:
@@ -47,16 +48,23 @@ def main() -> None:
     subparsers.add_parser("list", help="List all research projects") #list command is used to list all saved research projects
 
     # Delete command
-    delete_project_parser = subparsers.add_parser("delete-project", help="Delete a research project")
+    delete_project_parser = subparsers.add_parser("delete-project", help="Delete a research project") #delete-project command is used to delete a research project
 
-    delete_project_parser.add_argument("project_id", type=int, help="ID of the research project to delete")
+    delete_project_parser.add_argument("project_id", type=int, help="ID of the research project to delete") #project_id argument is used to specify the ID of the research project to delete
+
+    # Update command
+    update_project_parser = subparsers.add_parser("update-project", help="Update a research project")
+
+    update_project_parser.add_argument("project_id", type=int, help="ID of the research project to update")
+    update_project_parser.add_argument("name", type=str, help="New name for the research project")
+
 
     # Add sample command
     add_sample_parser = subparsers.add_parser("add-sample", help="Add a new biological sample")
 
-    add_sample_parser.add_argument("name", type=str, help="Name of the biological sample") #name argument is used to specify the name of the biological sample
+    add_sample_parser.add_argument("name", type=str, help="Name of the biological sample") 
 
-    add_sample_parser.add_argument("project_id", type=int, help="ID of the associated research project") #project_id argument is used to specify the ID of the associated research project
+    add_sample_parser.add_argument("project_id", type=int, help="ID of the associated research project") 
 
     #list samples command
     subparsers.add_parser("list-samples", help="List all biological samples")
@@ -108,6 +116,17 @@ def main() -> None:
             raise ValueError(f"Project with ID {args.project_id} does not exist or still has associated samples.")
 
         print(f"Deleted project with ID {args.project_id}")
+
+    # Handle update-project command
+    elif args.command == "update-project":
+        project = create_project(args.name)
+
+        updated = update_project(args.project_id, project["name"])
+
+        if not updated:
+            raise ValueError(f"Project with ID {args.project_id} does not exist.")
+
+        print(f"Updated project {args.project_id}: {project['name']}")
 
     # Handle add-sample command
     elif args.command == "add-sample":

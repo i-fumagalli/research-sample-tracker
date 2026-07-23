@@ -11,6 +11,7 @@ from sample_tracker.database import (
     delete_sample,
     update_sample,
     delete_project,
+    update_project,
     )
 
 #project tests
@@ -86,6 +87,18 @@ def test_delete_project_with_samples_returns_false(tmp_path: Path) -> None:
     assert projects == [
         (project_id, "Microbiome Study"),
     ]
+
+def test_update_project(tmp_path: Path) -> None:
+    database_path = tmp_path / "test.db"
+    create_tables(database_path)
+
+    project_id = insert_project("Microbiome Study", database_path)
+
+    updated = update_project(project_id, "Updated Microbiome Study", database_path)
+    projects = list_projects(database_path)
+
+    assert updated is True
+    assert projects == [(project_id, "Updated Microbiome Study")]
 
 
 #sample tests
